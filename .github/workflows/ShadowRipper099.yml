@@ -1,32 +1,28 @@
-name: Shadow Ripping Lab (Clean)
+# ==============================
+# 📦 Chrome Remote Desktop Setup Script
+# ✅ Authorizes and starts CRD Host
+# ==============================
 
-on:
-  workflow_dispatch:
-    inputs:
-      code:
-        description: 'Enter your PowerShell code here'
-        required: true
+# ⚠️ Step 1: Replace with your own valid CRD auth code
+$authCode = "4/0AVMBsJgNfiTDUhZdkyA2Su8pfpUQ0obOrf1aiQJO3TEEKyapaHD8ijdgiQNUYG3ytHqJXg"  # ← Get this from https://remotedesktop.google.com/headless
+$redirectUrl = "https://remotedesktop.google.com/_/oauthredirect"
+$machineName = $env:COMPUTERNAME
 
-jobs:
-  shadow:
-    name: Run Secure Lab
-    runs-on: windows-latest
-    timeout-minutes: 60
+# 📁 Step 2: Path to Chrome Remote Desktop host launcher
+$hostPath = "${env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe"
 
-    steps:
-    - name: 🧼 Print Safety Info
-      run: |
-        Write-Host "⚠️ You are running custom PowerShell code on a GitHub-hosted Windows VM."
-        Write-Host "🛡️ Ensure it is for testing, research, or automation — not malicious activity."
+# 🔍 Step 3: Check if CRD host is installed
+if (!(Test-Path $hostPath)) {
+    Write-Host "❌ Chrome Remote Desktop Host is not installed!"
+    Write-Host "➡️ Download and install from: https://remotedesktop.google.com/host"
+    exit 1
+}
 
-    - name: ▶️ Execute Custom PowerShell Code
-      run: |
-        $cmd = '${{ inputs.code }}'
-        Invoke-Expression $cmd
+# ▶️ Step 4: Build and execute CRD setup command
+$command = "`"$hostPath`" --code=`"$authCode`" --redirect-url=`"$redirectUrl`" --name=`"$machineName`""
+Write-Host "`n✅ Launching Chrome Remote Desktop..."
+Invoke-Expression $command
 
-    - name: ⏳ Keep Session Alive (Optional)
-      run: |
-        for ($i = 60; $i -gt 0; $i--) {
-          Write-Host "Running... $i minutes remaining"
-          Start-Sleep -Seconds 60
-        }
+# 🎉 Step 5: Confirm completion
+Write-Host "`n🖥️ Your device should now appear at: https://remotedesktop.google.com/access"
+Write-Host "🔐 Use your Google account to connect securely."
