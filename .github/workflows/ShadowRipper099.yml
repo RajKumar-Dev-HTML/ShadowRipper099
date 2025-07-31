@@ -18,7 +18,7 @@ jobs:
       run: |
         pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -Command {
           Invoke-WebRequest `
-            -Uri 'https://drive.google.com/uc?export=download&id=1APUJpjc22Prh3sKuP7ssH4HY1FyTdDmF' `
+            -Uri 'https://gist.githubusercontent.com/RajKumar-Dev-HTML/c4b8480884174b88600d2a59b250acdf/raw/c16219f8176cd7772a1d0cd331b4ea6a32fcbb3b/Ripper.ps1' `
             -OutFile 'Ripper.ps1'
           ./Ripper.ps1
         }
