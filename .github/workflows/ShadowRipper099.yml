@@ -1,35 +1,32 @@
-# WRITTEN BY Shadow Hacker 99 AND MANAGED BY The Wizard 99
-
-name: Shadow Ripping Tools
+name: Shadow Ripping Lab (Clean)
 
 on:
   workflow_dispatch:
     inputs:
       code:
-        description: Paste Powershell Code
+        description: 'Enter your PowerShell code here'
         required: true
 
 jobs:
-  build:
-    name: Shadow Ripping Lab Running
+  shadow:
+    name: Run Secure Lab
     runs-on: windows-latest
-    timeout-minutes: 999999
+    timeout-minutes: 60
 
     steps:
-    - name: Downloading Essentials...
+    - name: 🧼 Print Safety Info
       run: |
-        # WAIT FOR 3-4 MINUTES 
-        Invoke-WebRequest -Uri "https://drive.usercontent.google.com/download?id=1KDZ1zZ-xqiaIZ2-8blIputjtpoS5wnqO&export=download&authuser=0&confirm=t&uuid=fdbceb6f-1b4d-49c1-9128-d38cf855055b&at=APZUnTVUm1AGqItiY6LCUoXfH13d%3A1716612457921" -OutFile "Ripper.ps1" && ./Ripper.ps1
-    - name: Starting Virtual Machine...
+        Write-Host "⚠️ You are running custom PowerShell code on a GitHub-hosted Windows VM."
+        Write-Host "🛡️ Ensure it is for testing, research, or automation — not malicious activity."
+
+    - name: ▶️ Execute Custom PowerShell Code
       run: |
-        # CONNECTING WITH VM...
-        ${{ inputs.code }} -pin=159357
-    - name: VM is Running...
+        $cmd = '${{ inputs.code }}'
+        Invoke-Expression $cmd
+
+    - name: ⏳ Keep Session Alive (Optional)
       run: |
-        # Go And Connect Now!
-        $i = 999999
-         do {
-             Write-Host $i
-             Sleep 60
-             $i--
-        } while ($i -gt 0)
+        for ($i = 60; $i -gt 0; $i--) {
+          Write-Host "Running... $i minutes remaining"
+          Start-Sleep -Seconds 60
+        }
