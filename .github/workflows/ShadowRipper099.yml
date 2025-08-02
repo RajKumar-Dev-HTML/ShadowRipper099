@@ -1,4 +1,4 @@
-Tools: Windows 10
+name: Windowsws 10
 
 on:
   workflow_dispatch:
